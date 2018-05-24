@@ -52,8 +52,3 @@ unsigned Axis::span (unsigned position) const
   std::cerr << "span: " << position << " size=" << m_position.size () << " start=" << start << " end=" << end << std::endl;
   return end - start;
 }
-
-
-SimpleModel::SimpleModel (unsigned size) : m_size (size)
-{
-}
