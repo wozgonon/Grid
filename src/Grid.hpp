@@ -32,9 +32,12 @@ public:
   unsigned size () { return m_position.size (); }
   unsigned total_pixels () const;
   unsigned operator [] (unsigned ii) const {
+    return ii == 0 ? 0 : m_position [ii-1];
+  }
+  unsigned end (unsigned ii) const {
     return m_position [ii];
   }
-  unsigned span (unsigned position) const;
+  unsigned span   (unsigned position) const;
   
   Axis (unsigned size, unsigned pixels);
 

@@ -11,7 +11,7 @@ Grid::Grid (Model& model) : m_model (model), m_columns (model.columns (), defaul
 Axis::Axis (unsigned count, unsigned width_in_pixels) : m_default_width_in_pixels (width_in_pixels)
 {
   for (int ii = 0; ii < count; ++ ii) {
-    const unsigned pixels = ii * width_in_pixels;
+    const unsigned pixels = (ii+1) * width_in_pixels;
     this->m_position.push_back (pixels);
     const unsigned xx = m_position [ii];
     std::cerr << "Axis: " << ii << " " << xx << std::endl;
@@ -29,7 +29,7 @@ unsigned Axis::findPosition (unsigned pixel)
   for (int ii = 0; ii < len; ++ ii) {
     total_pixels = m_position [ii];
     if (pixel < total_pixels) {
-      return ii - 1;
+      return ii;
     }
   }
   return len - 1;  // Out of bound
@@ -40,14 +40,14 @@ unsigned Axis::total_pixels () const {
   if (size == 0) {
     return 0;
   }
-  return m_position [size - 1] + m_default_width_in_pixels;
+  return m_position [size - 1];
 }
 
 
 unsigned Axis::span (unsigned position) const
 {
-  const unsigned start = m_position [position];
-  const unsigned end   = position + 1 >= m_position.size () ? start + m_default_width_in_pixels : m_position [position + 1];
+  const unsigned start = (*this) [position];
+  const unsigned end   = m_position [position];
 
   std::cerr << "span: " << position << " size=" << m_position.size () << " start=" << start << " end=" << end << std::endl;
   return end - start;

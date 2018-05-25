@@ -6,7 +6,7 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QScrollArea>
-
+#include <QtWidgets/QVBoxLayout>
 
 //
 //  A simple model for demonstration that just provides a multiplication table.
@@ -74,6 +74,7 @@ extern int main (int argc, char**argv)
 
   Grid grid (model);
 
+
   Window window;
   QScrollArea scrollArea (&window);
   scrollArea.setHorizontalScrollBarPolicy (Qt::ScrollBarAlwaysOn);
@@ -84,6 +85,10 @@ extern int main (int argc, char**argv)
   QtGrid qtGrid (grid, &scrollArea);
   scrollArea.setWidget (&qtGrid);
   scrollArea.show ();
+
+  QVBoxLayout layout;
+  layout.addWidget (&scrollArea);
+  window.setLayout (&layout);
   window.show ();
   
   return app.exec();
