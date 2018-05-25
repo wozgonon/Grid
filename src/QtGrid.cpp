@@ -51,14 +51,18 @@ void QtGrid::mousePressEvent(QMouseEvent * event)
 
 Cell QtGrid::arrowKey(QKeyEvent * event) const
 {
-  const unsigned col = m_grid.m_currentCell.xx();
-  const unsigned row = m_grid.m_currentCell.yy();
+  const unsigned col     = m_grid.m_currentCell.xx();
+  const unsigned row     = m_grid.m_currentCell.yy();
+  const unsigned columns = m_grid.m_columns.size ();
+  const unsigned rows    = m_grid.m_rows.size ();
   const auto key = event->key();
   switch (key) {
+  case Qt::Key_Home:  return Cell (0, 0);
+  case Qt::Key_End:   return Cell (columns == 0 ? 0 : columns - 1, rows == 0 ? 0 : rows - 1);
   case Qt::Key_Up:    return Cell (col, row == 0 ? 0 : row - 1);
-  case Qt::Key_Down:  return Cell (col, row + 1 >= m_grid.m_rows.size () ? row : row + 1);
+  case Qt::Key_Down:  return Cell (col, row + 1 >= rows ? row : row + 1);
   case Qt::Key_Left:  return Cell (col == 0 ? 0 : col - 1, row);
-  case Qt::Key_Right: return Cell (col +1 >= m_grid.m_columns.size () ? col : col + 1, row);
+  case Qt::Key_Right: return Cell (col +1 >= columns ? col : col + 1, row);
   default: return m_grid.m_currentCell;
   }
 }
@@ -67,7 +71,7 @@ void QtGrid::keyPressEvent(QKeyEvent * event)
 {
   const auto key = event->key();
   std::cerr << "Key event: " << key << std::endl;
-  if (key == Qt::Key_Up || key == Qt::Key_Down || key == Qt::Key_Left || key == Qt::Key_Right) {
+  if (key == Qt::Key_Home || key == Qt::Key_End || key == Qt::Key_Up || key == Qt::Key_Down || key == Qt::Key_Left || key == Qt::Key_Right) {
     m_grid.m_currentCell = arrowKey (event);
     repaint ();
   }
